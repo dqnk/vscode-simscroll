@@ -1,5 +1,5 @@
 {
-  "name": "simscroll",
+	"name": "simscroll",
 	"displayName": "simscroll",
 	"description": "Simulate a horizontal monitor by simultaneously scrolling a split code window in Code.",
 	"version": "0.0.1",
@@ -10,14 +10,14 @@
 		"Other"
 	],
 	"activationEvents": [
-        "onCommand:simscroll.helloWorld"
+		"onCommand:simscroll.toggleSimScroll"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "simscroll.helloWorld",
-				"title": "Hello World"
+				"command": "simscroll.toggleSimScroll",
+				"title": "Toggle Sim Scroll"
 			}
 		]
 	},
