@@ -27,15 +27,20 @@ export function activate(context: vscode.ExtensionContext) { //	for(let i = 0; i
 			let currEditor = vscode.window.activeTextEditor;
 			critEditors = [];
 			for (let i = 0; i < editors.length; i++) {
-				if (editors[i].document.fileName === currEditor?.document.fileName && editors[i] !== currEditor) {
+				if (editors[i].document.fileName === currEditor?.document.fileName) {
 					critEditors.push(editors[i]);
 				}
 			}
 
-
-			//console.log(visibleRanges[0].start.line);
+			let height = visibleRanges[0].end.line - visibleRanges[0].start.line;
+			let anchor = visibleRanges[0].start.line - height - 1;
+			//probably should still have active editor in crit editors
 			for (let i = 0; i < critEditors.length; i++) {
 				//console.log(critEditors[i].document.fileName);
+				if (critEditors[i] === currEditor) {
+					anchor += height;
+					continue;
+				}
 				vscode.window.showTextDocument(critEditors[i].document,
 					{
 						viewColumn: currEditor?.viewColumn,
@@ -43,7 +48,8 @@ export function activate(context: vscode.ExtensionContext) { //	for(let i = 0; i
 						//							new vscode.Position(visibleRanges[0].end.line, 0))
 					}
 				);
-				critEditors[i].revealRange(new vscode.Range(new vscode.Position(visibleRanges[0].start.line - visibleRanges[0].end.line + visibleRanges[0].start.line - 1, 0), new vscode.Position(visibleRanges[0].start.line - 1, 0)));
+				critEditors[i].revealRange(new vscode.Range(new vscode.Position(anchor, 0), new vscode.Position(anchor + height, 0)));
+				anchor += height;
 				console.log(critEditors.length);
 			}
 			//	vscode.window.onDidChangeTextEditorSelection(({ selections, textEditor }) => {
