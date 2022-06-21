@@ -11,14 +11,18 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:simscroll.toggleSimScroll"
+		"onCommand:simscroll.enableSimScroll"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "simscroll.toggleSimScroll",
-				"title": "Toggle Sim Scroll"
+				"command": "simscroll.enableSimScroll",
+				"title": "Enable Sim Scroll"
+			},
+			{
+				"command": "simscroll.disableSimScroll",
+				"title": "Disable Sim Scroll"
 			}
 		]
 	},

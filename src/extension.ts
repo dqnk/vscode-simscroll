@@ -7,16 +7,19 @@ import * as vscode from 'vscode';
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) { //	for(let i = 0; i < editors.length; i++) {
 	//	let critEditors: vscode.TextEditor[];
+	let toggle = 0;
+	let critEditors = [];
 
 	context.subscriptions.push(vscode.window.onDidChangeTextEditorVisibleRanges(
 		({ textEditor, visibleRanges }) => {
+			if (!toggle) { return; }
 			if (textEditor !== vscode.window.activeTextEditor) {
 				return;
 			}
 
 			let editors = vscode.window.visibleTextEditors;
 			let currEditor = vscode.window.activeTextEditor;
-			let critEditors = [];
+			critEditors = [];
 			let currEditorIndex = 0;
 			for (let i = 0; i < editors.length; i++) {
 				if (editors[i].document.fileName === currEditor?.document.fileName) {
@@ -51,18 +54,11 @@ export function activate(context: vscode.ExtensionContext) { //	for(let i = 0; i
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('simscroll.toggleSimScroll', () => {
-		let editors = vscode.window.visibleTextEditors;
-		let currEditor = vscode.window.activeTextEditor;
-		let critEditors = [];
-		for (let i = 0; i < editors.length; i++) {
-			if (editors[i].document.fileName === currEditor?.document.fileName) {
-				critEditors.push(editors[i]);
-			}
-		}
-		context.subscriptions.push(disposable);
+	let enable = vscode.commands.registerCommand('simscroll.enableSimScroll', () => {
+		toggle = 1;
 	}
 	);
+	let disable = vscode.commands.registerCommand('simscroll.disableSimScroll', () => { toggle = 0; });
 
 }
 // this method is called when your extension is deactivated
