@@ -1,5 +1,6 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
+import { text } from 'stream/consumers';
 import * as vscode from 'vscode';
 
 // this method is called when your extension is activated
@@ -9,7 +10,7 @@ export function activate(context: vscode.ExtensionContext) { //	for(let i = 0; i
 	//		get full document path
 	//		console.log(editors[i].document.fileName);
 	//	}
-	let correspondingLinesHighlight: vscode.TextEditorDecorationType | undefined
+	let critEditors: vscode.TextEditor[];
 
 
 
@@ -18,9 +19,13 @@ export function activate(context: vscode.ExtensionContext) { //	for(let i = 0; i
 	//console.log('Congratulations, your extension "simscroll" is now active!');
 	context.subscriptions.push(vscode.window.onDidChangeTextEditorVisibleRanges(
 		({ textEditor, visibleRanges }) => {
+			if (textEditor !== vscode.window.activeTextEditor) {
+				return;
+			}
+
 			let editors = vscode.window.visibleTextEditors;
 			let currEditor = vscode.window.activeTextEditor;
-			let critEditors = [];
+			critEditors = [];
 			for (let i = 0; i < editors.length; i++) {
 				if (editors[i].document.fileName === currEditor?.document.fileName && editors[i] !== currEditor) {
 					critEditors.push(editors[i]);
@@ -38,7 +43,7 @@ export function activate(context: vscode.ExtensionContext) { //	for(let i = 0; i
 						//							new vscode.Position(visibleRanges[0].end.line, 0))
 					}
 				);
-				critEditors[i].revealRange(new vscode.Range(new vscode.Position(visibleRanges[0].start.line, 0), new vscode.Position(visibleRanges[0].end.line, 0)));
+				critEditors[i].revealRange(new vscode.Range(new vscode.Position(visibleRanges[0].start.line - 40, 0), new vscode.Position(visibleRanges[0].end.line - 40, 0)));
 				console.log(critEditors.length);
 			}
 			//	vscode.window.onDidChangeTextEditorSelection(({ selections, textEditor }) => {
