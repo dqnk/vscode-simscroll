@@ -43,7 +43,7 @@ export function activate(context: vscode.ExtensionContext) { //	for(let i = 0; i
 						//							new vscode.Position(visibleRanges[0].end.line, 0))
 					}
 				);
-				critEditors[i].revealRange(new vscode.Range(new vscode.Position(visibleRanges[0].start.line - 40, 0), new vscode.Position(visibleRanges[0].end.line - 40, 0)));
+				critEditors[i].revealRange(new vscode.Range(new vscode.Position(visibleRanges[0].start.line - visibleRanges[0].end.line + visibleRanges[0].start.line - 1, 0), new vscode.Position(visibleRanges[0].start.line - 1, 0)));
 				console.log(critEditors.length);
 			}
 			//	vscode.window.onDidChangeTextEditorSelection(({ selections, textEditor }) => {
