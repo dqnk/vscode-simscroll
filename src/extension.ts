@@ -6,17 +6,8 @@ import * as vscode from 'vscode';
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) { //	for(let i = 0; i < editors.length; i++) {
-	//		console.log("test");
-	//		get full document path
-	//		console.log(editors[i].document.fileName);
-	//	}
-	let critEditors: vscode.TextEditor[];
+	//	let critEditors: vscode.TextEditor[];
 
-
-
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	//console.log('Congratulations, your extension "simscroll" is now active!');
 	context.subscriptions.push(vscode.window.onDidChangeTextEditorVisibleRanges(
 		({ textEditor, visibleRanges }) => {
 			if (textEditor !== vscode.window.activeTextEditor) {
@@ -25,7 +16,7 @@ export function activate(context: vscode.ExtensionContext) { //	for(let i = 0; i
 
 			let editors = vscode.window.visibleTextEditors;
 			let currEditor = vscode.window.activeTextEditor;
-			critEditors = [];
+			let critEditors = [];
 			let currEditorIndex = 0;
 			for (let i = 0; i < editors.length; i++) {
 				if (editors[i].document.fileName === currEditor?.document.fileName) {
@@ -38,9 +29,8 @@ export function activate(context: vscode.ExtensionContext) { //	for(let i = 0; i
 
 			let height = visibleRanges[0].end.line - visibleRanges[0].start.line;
 			let anchor = visibleRanges[0].start.line - height * currEditorIndex;
-			//probably should still have active editor in crit editors
+
 			for (let i = 0; i < critEditors.length; i++) {
-				//console.log(critEditors[i].document.fileName);
 				if (critEditors[i] === currEditor) {
 					anchor += height;
 					continue;
@@ -48,26 +38,12 @@ export function activate(context: vscode.ExtensionContext) { //	for(let i = 0; i
 				vscode.window.showTextDocument(critEditors[i].document,
 					{
 						viewColumn: currEditor?.viewColumn,
-						//						selection: new vscode.Range(new vscode.Position(visibleRanges[0].start.line, 0),
-						//							new vscode.Position(visibleRanges[0].end.line, 0))
 					}
 				);
 				critEditors[i].revealRange(new vscode.Range(new vscode.Position(anchor, 0), new vscode.Position(anchor + height, 0)));
 				anchor += height;
 				console.log(critEditors.length);
 			}
-			//	vscode.window.onDidChangeTextEditorSelection(({ selections, textEditor }) => {
-			//		correspondingLinesHighlight?.dispose();
-			//		correspondingLinesHighlight = vscode.window.createTextEditorDecorationType({ backgroundColor: new vscode.ThemeColor('editor.inactiveSelectionBackground') })
-			//		vscode.window.visibleTextEditors
-			//			.filter(editor => editor !== textEditor && editor.document.uri.scheme !== 'output')
-			//			.forEach((scrolledEditor) => {
-			//				scrolledEditor.setDecorations(
-			//					correspondingLinesHighlight!,
-			//					selections.map(selection => new vscode.Range(selection.anchor, selection.end)
-			//					));
-			//			});
-			//	});
 		}));
 
 
@@ -83,14 +59,6 @@ export function activate(context: vscode.ExtensionContext) { //	for(let i = 0; i
 			if (editors[i].document.fileName === currEditor?.document.fileName) {
 				critEditors.push(editors[i]);
 			}
-		}
-
-		//get full document path
-		//			console.log(editors[i].document.fileName);
-		//console.log("len: " + critEditors.length);
-
-		for (let i = 0; i < critEditors.length; i++) {
-			//console.log(critEditors[i].document.fileName);
 		}
 		context.subscriptions.push(disposable);
 	}
