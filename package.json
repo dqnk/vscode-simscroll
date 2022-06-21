@@ -2,6 +2,7 @@
 	"name": "simscroll",
 	"displayName": "simscroll",
 	"description": "Simulate a horizontal monitor by simultaneously scrolling a split code window in Code.",
+	"icon": "res/simscroll_128.png",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.68.0"
