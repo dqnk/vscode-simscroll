@@ -26,14 +26,18 @@ export function activate(context: vscode.ExtensionContext) { //	for(let i = 0; i
 			let editors = vscode.window.visibleTextEditors;
 			let currEditor = vscode.window.activeTextEditor;
 			critEditors = [];
+			let currEditorIndex = 0;
 			for (let i = 0; i < editors.length; i++) {
 				if (editors[i].document.fileName === currEditor?.document.fileName) {
 					critEditors.push(editors[i]);
+					if (editors[i] === currEditor) {
+						currEditorIndex = i;
+					}
 				}
 			}
 
 			let height = visibleRanges[0].end.line - visibleRanges[0].start.line;
-			let anchor = visibleRanges[0].start.line - height - 1;
+			let anchor = visibleRanges[0].start.line - height * currEditorIndex;
 			//probably should still have active editor in crit editors
 			for (let i = 0; i < critEditors.length; i++) {
 				//console.log(critEditors[i].document.fileName);
